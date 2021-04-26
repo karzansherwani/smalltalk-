@@ -39,14 +39,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user = UserManager.loggedInUser
 
-        circleTextView.text = user.firstName.firstOrNull()?.toString() ?: "X"
-        usernameTextView.text = user.userName
-        firstNameTextView.text = user.firstName
 
-     //   logOutButton.setOnClickListener {
-        //    (activity as? MainActivity)?.logOutUser()
-        //}
     }
 }
