@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Ø" />
+        tools:text="KS" />
 
     <TextView
         android:id="@+id/user_name_label_text_view"

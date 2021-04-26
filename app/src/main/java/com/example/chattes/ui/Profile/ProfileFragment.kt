@@ -9,8 +9,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.chattes.R
-import com.example.chattes.UserManager
-import com.example.chattes.tabbar.MainActivity
 
 
 class ProfileFragment : Fragment() {
