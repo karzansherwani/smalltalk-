@@ -2,4 +2,5 @@
     <string name="app_name">Chattes</string>
     <string name="title_Chat">Chat</string>
     <string name="title_Profile">Profile</string>
+    <string name="title_Login">Login</string>
 </resources>
