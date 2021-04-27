@@ -5,11 +5,8 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_Chat">
 
-    <fragment
-        android:id="@+id/navigation_login"
-        android:name="com.example.chattes.ui.login.LoginFragment"
-        android:label="@string/title_Login"
-        tools:layout="@layout/login_fragment" />
+
+
     <fragment
         android:id="@+id/navigation_Chat"
         android:name="com.example.chattes.ui.Chat.ChatFragment"
@@ -21,6 +18,13 @@
         android:name="com.example.chattes.ui.Profile.ProfileFragment"
         android:label="@string/title_Profile"
         tools:layout="@layout/profile_fragment" />
+
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.chattes.ui.login.LoginFragment"
+        android:label="@string/title_Login"
+        tools:layout="@layout/login_fragment" />
 
 
 </navigation>
