@@ -9,11 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.toolbox.Volley
+import com.example.chattes.Database.ChatObject
 import com.example.chattes.R
+import com.example.chattes.hideKeyboard
 import com.example.chattes.ui.login.LoginActivity
+import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 
 class ChatFragment : Fragment() {
@@ -25,6 +32,8 @@ class ChatFragment : Fragment() {
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var chatInput: EditText
     private lateinit var sendButton: Button
+
+    private var timer: Timer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,8 +56,25 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setButtonListeners()
+        initRecyclerView()
     }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        startChatFetchTimer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer?.cancel()
+        timer = null
+    }
+
+
 
     private fun setButtonListeners() {
 
@@ -63,5 +89,71 @@ class ChatFragment : Fragment() {
             intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
             startActivity(intent)
         }
+        sendButton.setOnClickListener {
+            val text = chatInput.text.toString()
+            val chatObject = ChatObject("ln2lceAzGo", "karzan", text)
+
+            if (text.isNotEmpty()) {
+                chatViewModel.sendChatMessage(
+                    Volley.newRequestQueue(context),
+                    chatObject
+                ) { sucess ->
+                    if (sucess) {
+                        activity?.hideKeyboard()
+                        chatInput.setText("")
+                        chatAdapter.addInstance(chatObject)
+                        scrollToBottom()
+                    } else {
+                        Toast.makeText(
+                            context, "Noe gikk galt",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+            }
+        }
     }
+
+    private fun getChatMessages() {
+        chatViewModel.getChatMessages(
+            Volley.newRequestQueue(context),
+
+            { chatMessages ->
+                chatAdapter.updateData(chatMessages)
+                scrollToBottom()
+            },
+            {
+                Toast.makeText(
+                    context,
+                    "Noe gikk galt. Kunne ikke hente meldinger.",
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+    }
+
+    private fun scrollToBottom() {
+        recyclerView.scrollToPosition((recyclerView.adapter?.itemCount ?: 1) - 1)
+    }
+
+    private fun initRecyclerView() {
+        val linearLayoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = linearLayoutManager
+
+        chatAdapter = ChatAdapter(
+            listOf()
+        )
+        recyclerView.adapter = chatAdapter
+    }
+
+    private fun startChatFetchTimer(){
+        if (timer != null) {
+            return
+        }
+        timer = fixedRateTimer("chatFetchTimer",daemon = false, 0L, 5 * 1000){
+            getChatMessages()
+        }
+    }
+
+
 }

@@ -10,7 +10,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.jorfald.smalltalk"
+        applicationId "com.example.chattes"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1

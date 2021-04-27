@@ -22,7 +22,8 @@
             android:name=".ui.login.LoginActivity"
             android:theme="@style/Theme.Chattes"/>
         <activity
-        android:name=".tabbar.MainActivity">
+        android:name=".tabbar.MainActivity"
+            android:theme="@style/Theme.Chattes">
         </activity>
     </application>
 
